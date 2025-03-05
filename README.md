@@ -59,8 +59,6 @@ Une fois le serveur lancé, vous pouvez tester les endpoints via :
 ✔️ Interface utilisateur soignée et réactive 🎨
 ✔️ API REST développée avec **FastAPI** et base de données **SQLite** 🌐
 
-## 🎨 Aperçu
-![Aperçu de l'application](https://via.placeholder.com/1200x600.png?text=Student+Management+App)
 
 ## 🤝 Contribuer
 Les contributions sont les bienvenues !
@@ -75,5 +73,5 @@ Ce projet est sous licence **MIT**. Tu peux l'utiliser et le modifier librement.
 
 ---
 
-💡 **Développé avec ❤️ par [Ton Nom](https://github.com/ton-utilisateur)**
+💡 **Développé avec ❤️ par Rhouma Mohamed(https://github.com/medrhouma)**
 

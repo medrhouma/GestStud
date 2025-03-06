@@ -1,102 +1,114 @@
-'use client'
-import { useState, useEffect } from 'react';
-import axios from 'axios';
-import styled from 'styled-components';
+'use client' // Indique que ce composant est un composant client dans Next.js
 
+import { useState, useEffect } from 'react'; // Importation des hooks React pour la gestion des états et des effets
+import axios from 'axios'; // Importation d'Axios pour effectuer des requêtes HTTP
+import styled from 'styled-components'; // Importation de styled-components pour le style des composants
+
+// Définition du conteneur principal avec du style
 const Container = styled.div`
   padding: 40px;
-  font-family: 'Poppins', sans-serif;
-  max-width: 1200px;
-  margin: auto;
-  background-color: #f0f2f5;
-  border-radius: 12px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+  font-family: 'Poppins', sans-serif; // Police utilisée
+  max-width: 1200px; // Largeur maximale
+  margin: auto; // Centrage du conteneur
+  background-color: #f0f2f5; // Couleur de fond
+  border-radius: 12px; // Bordures arrondies
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1); // Ombre pour l'effet d'élévation
 `;
 
+// Définition du titre principal
 const Title = styled.h1`
-  text-align: center;
-  color: #2c3e50;
-  margin-bottom: 30px;
-  font-weight: 700;
+  text-align: center; // Centrage du texte
+  color: #2c3e50; // Couleur du texte
+  margin-bottom: 30px; // Marge en bas
+  font-weight: 700; // Épaisseur de la police
 `;
 
+// Définition du formulaire avec style
 const Form = styled.form`
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  padding: 25px;
-  background-color: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  display: flex; // Affichage en flexbox
+  flex-direction: column; // Organisation des éléments en colonne
+  gap: 15px; // Espacement entre les éléments
+  padding: 25px; // Espacement interne
+  background-color: #ffffff; // Couleur de fond
+  border-radius: 12px; // Bordures arrondies
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1); // Ombre
 `;
 
+// Style des labels
 const Label = styled.label`
-  font-weight: 600;
-  color: #34495e;
+  font-weight: 600; // Épaisseur du texte
+  color: #34495e; // Couleur du texte
 `;
 
+// Style des champs de saisie
 const Input = styled.input`
-  width: 100%;
-  padding: 12px;
-  font-size: 16px;
-  border: 1px solid #bdc3c7;
-  border-radius: 8px;
-  outline: none;
-  transition: border 0.3s;
+  width: 100%; // Largeur complète
+  padding: 12px; // Espacement interne
+  font-size: 16px; // Taille du texte
+  border: 1px solid #bdc3c7; // Bordure
+  border-radius: 8px; // Bordures arrondies
+  outline: none; // Supprime l'effet de contour par défaut
+  transition: border 0.3s; // Animation de la bordure
 
   &:focus {
-    border: 1px solid #3498db;
+    border: 1px solid #3498db; // Changement de couleur au focus
   }
 `;
 
+// Style du bouton
 const Button = styled.button`
-  padding: 14px;
-  font-size: 16px;
-  background: linear-gradient(45deg, #e74c3c, #c0392b);
-  color: white;
-  border: none;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: transform 0.2s, background 0.3s;
+  padding: 14px; // Espacement interne
+  font-size: 16px; // Taille du texte
+  background: linear-gradient(45deg, #e74c3c, #c0392b); // Dégradé de couleurs
+  color: white; // Texte blanc
+  border: none; // Suppression de la bordure
+  border-radius: 8px; // Bordures arrondies
+  cursor: pointer; // Curseur interactif
+  transition: transform 0.2s, background 0.3s; // Animation au survol
 
   &:hover {
-    background: linear-gradient(45deg, #c0392b, #a93226);
-    transform: scale(1.05);
+    background: linear-gradient(45deg, #c0392b, #a93226); // Changement de couleur au survol
+    transform: scale(1.05); // Effet d'agrandissement
   }
 `;
 
+// Conteneur pour la liste des étudiants
 const StudentList = styled.div`
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-  gap: 25px;
-  margin-top: 20px;
+  display: grid; // Affichage en grille
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); // Colonnes responsives
+  gap: 25px; // Espacement entre les éléments
+  margin-top: 20px; // Marge en haut
 `;
 
+// Style de la carte d'un étudiant
 const StudentCard = styled.div`
-  padding: 20px;
-  background: #ffffff;
-  border-radius: 12px;
-  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
-  transition: transform 0.3s;
+  padding: 20px; // Espacement interne
+  background: #ffffff; // Couleur de fond
+  border-radius: 12px; // Bordures arrondies
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1); // Ombre
+  transition: transform 0.3s; // Animation
 
   &:hover {
-    transform: translateY(-8px);
+    transform: translateY(-8px); // Déplacement au survol
   }
 `;
 
+// Style du nom de l'étudiant
 const StudentInfo = styled.h3`
-  font-size: 20px;
-  color: #2c3e50;
-  margin-bottom: 8px;
-  font-weight: 600;
+  font-size: 20px; // Taille du texte
+  color: #2c3e50; // Couleur du texte
+  margin-bottom: 8px; // Marge en bas
+  font-weight: 600; // Épaisseur du texte
 `;
 
+// Style des attributs de l'étudiant
 const StudentAttribute = styled.p`
-  font-size: 16px;
-  color: #7f8c8d;
+  font-size: 16px; // Taille du texte
+  color: #7f8c8d; // Couleur du texte
 `;
 
 export default function Home() {
+  // Interface définissant un étudiant
   interface Student {
     id: number;
     name: string;
@@ -104,30 +116,34 @@ export default function Home() {
     grade: string;
   }
 
+  // États pour stocker les étudiants et les entrées du formulaire
   const [students, setStudents] = useState<Student[]>([]);
   const [name, setName] = useState('');
   const [age, setAge] = useState<number | ''>('');
   const [grade, setGrade] = useState('');
 
+  // Fonction pour récupérer les étudiants depuis l'API
   const fetchStudents = async () => {
     try {
       const response = await axios.get('http://localhost:8000/students/');
       setStudents(response.data);
     } catch (error) {
-      console.error('Error fetching students:', error);
+      console.error('Erreur lors de la récupération des étudiants:', error);
     }
   };
 
+  // Interface pour un nouvel étudiant
   interface StudentData {
     name: string;
     age: number;
     grade: string;
   }
 
+  // Fonction pour ajouter un étudiant
   const handleAddStudent = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
+    e.preventDefault(); // Empêche le rechargement de la page
     if (!name || !age || !grade) {
-      alert('Please fill all fields');
+      alert('Veuillez remplir tous les champs');
       return;
     }
 
@@ -135,43 +151,39 @@ export default function Home() {
 
     try {
       await axios.post('http://localhost:8000/students/', studentData);
-      fetchStudents();
+      fetchStudents(); // Met à jour la liste
       setName('');
       setAge('');
       setGrade('');
     } catch (error) {
-      console.error('Error adding student:', error);
+      console.error('Erreur lors de l ajout :', error);
     }
   };
 
+  // Chargement des étudiants au montage du composant
   useEffect(() => {
     fetchStudents();
   }, []);
 
   return (
     <Container>
-      <Title>Student Management</Title>
-
+      <Title>Gestion des Étudiants</Title>
       <Form onSubmit={handleAddStudent}>
-        <Label>Name:</Label>
+        <Label>Nom:</Label>
         <Input type="text" value={name} onChange={(e) => setName(e.target.value)} />
-        
-        <Label>Age:</Label>
+        <Label>Âge:</Label>
         <Input type="number" value={age} onChange={(e) => setAge(e.target.value ? Number(e.target.value) : '')} />
-        
-        <Label>Grade:</Label>
+        <Label>Classe:</Label>
         <Input type="text" value={grade} onChange={(e) => setGrade(e.target.value)} />
-        
-        <Button type="submit">Add Student</Button>
+        <Button type="submit">Ajouter</Button>
       </Form>
-
-      <Title>Student List</Title>
+      <Title>Liste des Étudiants</Title>
       <StudentList>
         {students.map((student) => (
           <StudentCard key={student.id}>
             <StudentInfo>{student.name}</StudentInfo>
-            <StudentAttribute>Age: {student.age} years old</StudentAttribute>
-            <StudentAttribute>Grade: {student.grade}</StudentAttribute>
+            <StudentAttribute>Âge: {student.age} ans</StudentAttribute>
+            <StudentAttribute>Classe: {student.grade}</StudentAttribute>
           </StudentCard>
         ))}
       </StudentList>
